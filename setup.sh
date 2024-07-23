@@ -131,6 +131,16 @@ echo "set number" >> ~/.vimrc
 echo "syntax on" >> ~/.vimrc
 
 # =========================
+# Git
+# =========================
+echo "Enter your git email:"
+read git_email
+echo "Enter your git username"
+read git_username
+git config --global user.email $git_email
+git config --global user.name $git_username
+
+# =========================
 # FINISH
 # =========================
 print_message "Reloading shell configuration"
