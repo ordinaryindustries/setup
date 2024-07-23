@@ -150,7 +150,6 @@ echo "syntax on" >> ~/.vimrc
 print_message "Installing mas utility"
 brew install mas
 
-
 # iTerm2
 echo "Installing iTerm2"
 brew install --cask iterm2
@@ -159,50 +158,12 @@ brew install --cask iterm2
 echo "Installing Visual Studio Code"
 brew install --cask visual-studio-code
 
-# 1Password
-echo "Install 1Password"
-brew install --cask 1password
-
-
 if confirm "Ensure you have logged into the App Store at least once and then press any key to continue"; then
   print_message "Installing apps from Mac App Store"
 else
   echo "Installation canceled"
   exit 1
 fi
-
-# Affinity Photo
-mas install 1616822987
-
-# Affinity Designer
-mas install 1616831348
-
-# FCPX
-mas install 424389933
-
-# Magnet
-mas install 441258766
-
-# ColorSlurp
-mas install 1287239339
-
-# PiPifier
-mas install 1160374471
-
-# Crouton
-mas install 1461650987
-
-# Parcel
-mas install 639968404
-
-# Flighty
-mas install 1358823008
-
-# Codye
-mas install 1516894961
-
-# NordVPN
-mas install 905953485
 
 # Xcode
 mas install 497799835
