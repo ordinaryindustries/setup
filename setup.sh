@@ -5,6 +5,17 @@ print_message() {
   echo "$1"
 }
 
+confirm() {
+  while true; do
+    read "response?$1 (y/n): "
+    case $response in
+      [Yy]* ) return 0;;  # User chose yes
+      [Nn]* ) return 1;;  # User chose no
+      * ) echo "Please answer yes (y) or no (n).";;
+    esac
+  done
+}
+
 # =========================
 # SETUP
 # =========================
@@ -89,7 +100,7 @@ defaults write com.apple.dock "autohide" -bool "true"
 defaults write com.apple.dock "autohide-delay" -float "0"
 defaults write com.apple.dock "autohide-time-modifier" -float "0"
 
-# Disable Spraces automatic rearranging
+# Disable Spaces automatic rearranging
 defaults write com.apple.dock "mru-spaces" -bool "false"
 
 # Restart the dock
@@ -126,13 +137,77 @@ sed -i '' 's/plugins=(/plugins=(zsh-autosuggestions zsh-syntax-highlighting kube
 # =========================
 # VIM
 # =========================
+print_message "Configuring VIM"
 touch ~/.vimrc
 echo "set number" >> ~/.vimrc
 echo "syntax on" >> ~/.vimrc
 
 # =========================
+# Apps
+# =========================
+# Installing apps from brew.
+# Install mas utility
+print_message "Installing mas utility"
+brew install mas
+
+
+# iTerm2
+echo "Installing iTerm2"
+brew install --cask iterm2
+
+# Visual Studio Code
+echo "Installing Visual Studio Code"
+brew install --cask visual-studio-code
+
+# 1Password
+echo "Install 1Password"
+brew install --cask 1password
+
+
+if confirm "Ensure you have logged into the App Store at least once and then press any key to continue"; then
+  print_message "Installing apps from Mac App Store"
+else
+  echo "Installation canceled"
+  exit 1
+fi
+
+# Affinity Photo
+mas install 1616822987
+
+# Affinity Designer
+mas install 1616831348
+
+# FCPX
+mas install 424389933
+
+# Magnet
+mas install 441258766
+
+# ColorSlurp
+mas install 1287239339
+
+# PiPifier
+mas install 1160374471
+
+# Crouton
+mas install 1461650987
+
+# Parcel
+mas install 639968404
+
+# Flighty
+mas install 1358823008
+
+# Codye
+mas install 1516894961
+
+# NordVPN
+mas install 905953485
+
+# =========================
 # Git
 # =========================
+print_message "Configuring Git"
 echo "Enter your git email:"
 read git_email
 echo "Enter your git username"
@@ -145,3 +220,5 @@ git config --global user.name $git_username
 # =========================
 print_message "Reloading shell configuration"
 source ~/.zshrc
+
+print_message "Job's done"
