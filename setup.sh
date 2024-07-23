@@ -204,6 +204,10 @@ mas install 1516894961
 # NordVPN
 mas install 905953485
 
+# Xcode
+mas install 497799835
+sudo xcodebuild -license accept
+
 # =========================
 # Git
 # =========================
