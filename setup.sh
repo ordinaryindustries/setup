@@ -28,6 +28,11 @@ fi
 print_message "Enter your admin password:"
 sudo -v
 
+echo "Enter your git email:"
+read git_email
+echo "Enter your git username"
+read git_username
+
 
 # =========================
 # HOMEBREW
@@ -60,6 +65,14 @@ latest_python_version=$(pyenv install --list | grep -E '^\s*[0-9]+(\.[0-9]+)*$' 
 pyenv install -f $latest_python_version
 pyenv global $latest_python_version
 
+# Watch
+brew install watch
+
+# JQ
+brew insall jq
+
+# TODO: Poetry?
+
 # Virtual environments
 pip install virtualenvwrapper
 echo "" >> ~/.zshrc
@@ -70,19 +83,6 @@ python_path=$(which python)
 echo "export VIRTUALENVWRAPPER_PYTHON=$python_path" >> ~/.zshrc
 echo "source ~/.pyenv/versions/$latest_python_version/bin/virtualenvwrapper.sh" >> ~/.zshrc
 
-# =========================
-# ALIASES
-# =========================
-print_message "Configuring shell aliases"
-echo '' >> ~/.zshrc
-echo '# ALIASES' >> ~/.zshrc
-echo 'alias ll="ls -hal"' >> ~/.zshrc
-echo 'alias erc="vim ~/.zshrc"' >> ~/.zshrc
-echo 'alias resource="source ~/.zshrc"' >> ~/.zshrc
-
-echo ''
-echo '# Prevent brew doctor from complaining about pyenv'
-echo "alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'" >> ~/.zshrc
 
 # =========================
 # MAC CONFIG
@@ -131,8 +131,6 @@ git clone https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/doctl ${ZSH_CUS
 git clone https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/docker
 git clone https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/gitignore ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/gitignore
 
-# Update the plugins declaration.
-sed -i '' 's/plugins=(/plugins=(zsh-autosuggestions zsh-syntax-highlighting kubectl doctl docker gitignore /' ~/.zshrc
 
 # =========================
 # VIM
@@ -173,12 +171,15 @@ sudo xcodebuild -license accept
 # Git
 # =========================
 print_message "Configuring Git"
-echo "Enter your git email:"
-read git_email
-echo "Enter your git username"
-read git_username
 git config --global user.email $git_email
 git config --global user.name $git_username
+
+# =========================
+# GPG
+# =========================
+print_message "Configuring GPG"
+brew install gnupg
+gpg --full-generate-key
 
 # =========================
 # FINISH
