@@ -118,6 +118,9 @@ killall Dock
 # Don't show screenshot preview
 defaults write com.apple.screencapture "show-thumbnail" -bool "false"
 
+# Setup Developer directory
+mkdir ~/Developer
+
 # Set finder view mode to columns
 defaults write com.apple.finder "FXPreferredViewStyle" -string "clmv"
 
