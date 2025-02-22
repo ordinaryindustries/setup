@@ -207,7 +207,7 @@ declare -a arr=(
 
 for url in "${arr[@]}"
 do
-  open url
+  open $url
 done
 
 # Install Oh My ZSH
