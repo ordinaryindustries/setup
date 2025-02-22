@@ -225,7 +225,7 @@ dockutil --add /Applications/Xcode.app
 # =========================
 declare -a arr=(
   "https://x.com"
-  "https://bluesky.com"
+  "https://bsky.app"
   "https://medium.com"
   "https://substack.com"
   "https://appstoreconnect.apple.com"
