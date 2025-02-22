@@ -175,9 +175,36 @@ open -a /System/Applications/App\ Store.app
 sleep 10
 killall App\ Store
 
-# Xcode
+# Install public Xcode
 mas install 497799835
 sudo xcodebuild -license accept
+
+# Install Helm for App Store Connect
+mas install 6479357934
+
+# Install RevenueCat Dashboard
+mas install 1544144499
+
+# Install Slurp
+mas install 1287239339
+
+# Install Affinity Photo
+mas install 1616822987
+
+# Install Pipifier
+mas install 1160374471
+
+# Install Testflight
+mas install 899247664
+
+# Install Apple Developer
+mas install 640199958
+
+# Install Logic Pro X
+mas install 634148309
+
+# Install Final Cut Pro X
+mas install 424389933
 
 # =========================
 # Git
