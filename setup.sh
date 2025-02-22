@@ -230,6 +230,7 @@ declare -a arr=(
   "https://substack.com"
   "https://appstoreconnect.apple.com"
   "https://reddit.com"
+  "https://buffer.com"
 )
 
 for url in "${arr[@]}"
