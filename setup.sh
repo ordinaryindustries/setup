@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-# Function to print messages
+# =========================
+# HELPERS
+# =========================
 print_message() {
   echo "$1"
 }
@@ -28,11 +30,10 @@ fi
 print_message "Enter your admin password:"
 sudo -v
 
-echo "Enter your git email:"
+print_message "Enter your git email:"
 read git_email
-echo "Enter your git username"
+print_message "Enter your git username"
 read git_username
-
 
 # =========================
 # HOMEBREW
@@ -69,29 +70,37 @@ pyenv global $latest_python_version
 brew install watch
 
 # JQ
-brew insall jq
-
-# TODO: Poetry?
-
-# Virtual environments
-pip install virtualenvwrapper
-echo "" >> ~/.zshrc
-echo "# Virtualenvs" >> ~/.zshrc
-echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.zshrc
-echo "export PROJECT_HOME=$HOME/Devel" >> ~/.zshrc
-python_path=$(which python)
-echo "export VIRTUALENVWRAPPER_PYTHON=$python_path" >> ~/.zshrc
-echo "source ~/.pyenv/versions/$latest_python_version/bin/virtualenvwrapper.sh" >> ~/.zshrc
-
+brew install jq
 
 # =========================
 # MAC CONFIG
 # =========================
+# Dockutil
+brew install dockutil
+
+# Clear Dock
+echo "Clearing and configuring Dock"
+dockutil --remove com.apple.launchpad.launcher
+dockutil --remove com.apple.Maps
+dockutil --remove com.apple.Photos
+dockutil --remove com.apple.FaceTime
+dockutil --remove com.apple.Calendar
+dockutil --remove com.apple.AddressBook
+dockutil --remove com.apple.reminders
+dockutil --remove com.apple.Notes
+dockutil --remove com.apple.freeform
+dockutil --remove com.apple.TV
+dockutil --remove com.apple.news
+dockutil --remove com.apple.AppStore
+dockutil --remove com.apple.systempreferences
+dockutil --remove '~/Downloads'
+dockutil --remove spacer-tiles
+
 # Set dock to the left edge
 defaults write com.apple.dock "orientation" -string "left" 
 
 # Set dock icons size
-defaults write com.apple.dock "tilesize" -int "24"
+defaults write com.apple.dock "tilesize" -int "40"
 
 # Enable dock autohide
 defaults write com.apple.dock "autohide" -bool "true"
@@ -118,7 +127,6 @@ defaults write com.apple.finder "FXRemoveOldTrashItems" -bool "true"
 # Restart Finder
 killall Finder
 
-
 # =========================
 # Oh My ZSH
 # =========================
@@ -131,6 +139,10 @@ git clone https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/doctl ${ZSH_CUS
 git clone https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/docker ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/docker
 git clone https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/gitignore ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/gitignore
 
+# =========================
+# Hush Login
+# =========================
+touch ~/.hushlogin
 
 # =========================
 # VIM
@@ -148,20 +160,20 @@ echo "syntax on" >> ~/.vimrc
 print_message "Installing mas utility"
 brew install mas
 
-# iTerm2
-echo "Installing iTerm2"
-brew install --cask iterm2
+# Ghostty
+print_message "Installing Ghostty"
+brew install --cask ghostty
 
 # Visual Studio Code
-echo "Installing Visual Studio Code"
+print_message "Installing Visual Studio Code"
 brew install --cask visual-studio-code
 
-if confirm "Ensure you have logged into the App Store at least once and then press any key to continue"; then
-  print_message "Installing apps from Mac App Store"
-else
-  echo "Installation canceled"
-  exit 1
-fi
+# Launch App Store to ensure we can install MAS apps.
+open -a /System/Applications/App\ Store.app
+
+# Kill App Store after a brief wait.
+sleep 10
+killall App\ Store
 
 # Xcode
 mas install 497799835
@@ -175,11 +187,32 @@ git config --global user.email $git_email
 git config --global user.name $git_username
 
 # =========================
-# GPG
+# Setup Dock
 # =========================
-print_message "Configuring GPG"
-brew install gnupg
-gpg --full-generate-key
+dockutil --add /Applications/Ghostty.app
+dockutil --add /Applications/Visual\ Studio\ Code.app
+dockutil --add /Applications/Xcode.app
+
+# =========================
+# Open URLS
+# =========================
+declare -a arr=(
+  "https://x.com"
+  "https://bluesky.com"
+  "https://medium.com"
+  "https://substack.com"
+  "https://appstoreconnect.apple.com"
+  "https://reddit.com"
+)
+
+for url in "${arr[@]}"
+do
+  open url
+done
+
+# Install Oh My ZSH
+print_message "Installing Oh My ZSH"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # =========================
 # FINISH
@@ -187,4 +220,4 @@ gpg --full-generate-key
 print_message "Reloading shell configuration"
 source ~/.zshrc
 
-print_message "Job's done"
+print_message "Job's done. Reload your shell to complete setup."
